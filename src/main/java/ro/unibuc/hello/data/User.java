@@ -1,0 +1,82 @@
+package ro.unibuc.hello.data;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import java.util.UUID;
+import java.time.LocalDate;
+
+@Document(collection = "users") // MongoDB collection name
+public class User {
+
+    @Id
+    private UUID uuid; // Unique identifier for the user
+
+    @Field("firstName")
+    private String firstName;
+
+    @Field("lastName")
+    private String lastName;
+
+    @Field("birthday")
+    private LocalDate birthday;
+
+    @Field("email")
+    private String email;
+
+    // Getter and Setter for 'uuid'
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    // Getter and Setter for 'firstName'
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    // Getter and Setter for 'lastName'
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    // Getter and Setter for 'birthday'
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
+    // Getter and Setter for 'email'
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uuid=" + uuid +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthday=" + birthday +
+                ", email='" + email + '\'' +
+                '}';
+    }
+}

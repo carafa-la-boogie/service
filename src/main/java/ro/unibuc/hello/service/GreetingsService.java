@@ -35,6 +35,7 @@ public class GreetingsService {
 
     public List<Greeting> getAllGreetings() {
         List<InformationEntity> entities = informationRepository.findAll();
+        String a ="a";
         return entities.stream()
                 .map(entity -> new Greeting(entity.getId(), entity.getTitle()))
                 .collect(Collectors.toList());
