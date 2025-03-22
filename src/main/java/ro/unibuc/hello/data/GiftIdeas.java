@@ -3,13 +3,12 @@ package ro.unibuc.hello.data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import java.util.UUID;
 
 @Document(collection = "gift_ideas") // MongoDB collection name
 public class GiftIdeas {
 
     @Id
-    private UUID id; // Unique identifier for the gift idea
+    private String id; // Unique identifier for the gift idea
 
     @Field("giftName")
     private String giftName; // Name of the gift idea
@@ -18,17 +17,17 @@ public class GiftIdeas {
     private String giftLink; // Link to the gift
 
     @Field("giftGiver")
-    private UUID giftGiver; // UUID of the person giving the gift
+    private String giftGiver; // UUID of the person giving the gift
 
     @Field("giftReceiver")
-    private UUID giftReceiver; // UUID of the person receiving the gift
+    private String giftReceiver; // UUID of the person receiving the gift
 
     // Getter and Setter for 'id'
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -51,20 +50,20 @@ public class GiftIdeas {
     }
 
     // Getter and Setter for 'giftGiver'
-    public UUID getGiftGiver() {
+    public String getGiftGiver() {
         return giftGiver;
     }
 
-    public void setGiftGiver(UUID giftGiver) {
+    public void setGiftGiver(String giftGiver) {
         this.giftGiver = giftGiver;
     }
 
     // Getter and Setter for 'giftReceiver'
-    public UUID getGiftReceiver() {
+    public String getGiftReceiver() {
         return giftReceiver;
     }
 
-    public void setGiftReceiver(UUID giftReceiver) {
+    public void setGiftReceiver(String giftReceiver) {
         this.giftReceiver = giftReceiver;
     }
 

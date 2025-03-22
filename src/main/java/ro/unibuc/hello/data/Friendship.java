@@ -3,48 +3,47 @@ package ro.unibuc.hello.data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import java.util.UUID;
 import java.time.LocalDate;
 
 @Document(collection = "friendships") // MongoDB collection name
 public class Friendship {
 
     @Id
-    private UUID id; // Unique identifier for the friendship
+    private String id; // Unique identifier for the friendship
 
     @Field("firstFriend")
-    private UUID firstFriend; // UUID of the first friend
+    private String firstFriend; // UUID of the first friend
 
     @Field("secondFriend")
-    private UUID secondFriend; // UUID of the second friend
+    private String secondFriend; // UUID of the second friend
 
     @Field("friendshipAniversary")
     private LocalDate friendshipAniversary; // Date of the friendship anniversary
 
     // Getter and Setter for 'id'
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     // Getter and Setter for 'firstFriend'
-    public UUID getFirstFriend() {
+    public String getFirstFriend() {
         return firstFriend;
     }
 
-    public void setFirstFriend(UUID firstFriend) {
+    public void setFirstFriend(String firstFriend) {
         this.firstFriend = firstFriend;
     }
 
     // Getter and Setter for 'secondFriend'
-    public UUID getSecondFriend() {
+    public String getSecondFriend() {
         return secondFriend;
     }
 
-    public void setSecondFriend(UUID secondFriend) {
+    public void setSecondFriend(String secondFriend) {
         this.secondFriend = secondFriend;
     }
 

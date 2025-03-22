@@ -7,7 +7,18 @@
 # Requests for API endpoints of the sample project:
 
 ### Hello world endpoint: get response "Hello, Stranger!"
-GET http://localhost:8080/hello-world
+GET http://localhost:8080/users
+
+
+
+POST http://localhost:8080/users
+Content-Type: application/json
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "birthday": "1990-01-01",
+    "email": "john.doe@example.com"
+}
 
 ### Hello world with a request param passed.
 # When sending the request it will ask you for the name
@@ -19,13 +30,18 @@ GET http://localhost:8080/hello-world
 ### Save a greeting to database
 @postGreetingId = 1001
 @postGreetingContent = Hello!
-POST http://localhost:8080/greetings
+POST http://localhost:8080/users
 Content-Type: application/json
 
+
 {
-    "id": "{{postGreetingId}}",
-    "content": "{{postGreetingContent}}"
+    "id": "3",
+    "firstName": "John",
+    "lastName": "Doe",
+    "birthday": "1990-01-01",
+    "email": "john.doe@example.com"
 }
+
 
 ### Get all greetings
 GET http://localhost:8080/greetings
@@ -51,3 +67,99 @@ DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
 
 
 # TODO add requests for your own endpoints!
+### Get all users
+GET http://localhost:8080/users
+
+### Get a user by their email
+GET http://localhost:8080/users/john.doe@example.com
+
+### Create a new user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+    "id": "1",
+    "firstName": "John",
+    "lastName": "Doe",
+    "birthday": "1990-01-01",
+    "email": "john.doe@example.com"
+}
+
+### Update an existing user
+PUT http://localhost:8080/users/1
+Content-Type: application/json
+
+{
+    "id": "1",
+    "firstName": "John",
+    "lastName": "Doe",
+    "birthday": "1990-01-01",
+    "email": "john.doe.updated@example.com"
+}
+
+### Patch an existing user
+PATCH http://localhost:8080/users/1
+Content-Type: application/json
+
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "birthday": "1990-01-01",
+    "email": "john.doe.patched@example.com"
+}
+
+### Delete a user by ID
+DELETE http://localhost:8080/users/
+
+### Friendship Endpoints ###
+
+### Get all friendships
+GET http://localhost:8080/friendships
+
+### Get a friendship by first friend (John Doe with id 1)
+GET http://localhost:8080/friendships/first-friend/1
+
+### Get a friendship by second friend (John Doe with id 2)
+GET http://localhost:8080/friendships/second-friend/2
+
+### Create a new friendship between John Doe with id 1 and John Doe with id 2
+POST http://localhost:8080/friendships
+Content-Type: application/json
+
+{
+    "id": "2",
+    "firstFriendId": "1",
+    "secondFriendId": "2",
+    "friendshipStartDate": "2025-03-22"
+}
+
+### Update an existing friendship (between John Doe with id 1 and John Doe with id 2)
+PUT http://localhost:8080/friendships/
+Content-Type: application/json
+
+{
+    "firstFriendId": "1",
+    "secondFriendId": "2",
+    "friendshipStartDate": "2025-03-22",
+    "friendshipStatus": "Updated"
+}
+
+### Patch an existing friendship (partially update) between John Doe with id 1 and John Doe with id 2
+PATCH http://localhost:8080/friendships/1
+Content-Type: application/json
+
+{
+    "friendshipStatus": "Updated"
+}
+
+### Delete a friendship by ID (between John Doe with id 1 and John Doe with id 2)
+DELETE http://localhost:8080/friendships/1
+
+### Find a friendship by first friend (John Doe with id 1)
+GET http://localhost:8080/friendships/first-friend/1
+
+### Find a friendship by second friend (John Doe with id 2)
+GET http://localhost:8080/friendships/second-friend/2
+
+### Delete a friendship by ID (John Doe with id 1 and John Doe with id 2)
+DELETE http://localhost:8080/friendships/1

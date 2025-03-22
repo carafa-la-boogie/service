@@ -2,14 +2,15 @@ package ro.unibuc.hello.data;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-import java.util.UUID;
+
+import java.util.Optional;
 
 @Repository
-public interface FriendshipRepository extends MongoRepository<Friendship, UUID> {
+public interface FriendshipRepository extends MongoRepository<Friendship, String> {
 
-    // Custom query method to find friendship by the first friend
-    Optional<Friendship> findByFirstFriend(UUID firstFriend);
+    // Custom query method to find friendships by first friend's UUID
+    Optional<Friendship> findByFirstFriend(String firstFriend);
 
-    // Custom query method to find friendship by the second friend
-    Optional<Friendship> findBySecondFriend(UUID secondFriend);
+    // Custom query method to find friendships by second friend's UUID
+    Optional<Friendship> findBySecondFriend(String secondFriend);
 }

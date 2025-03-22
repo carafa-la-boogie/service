@@ -3,14 +3,13 @@ package ro.unibuc.hello.data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import java.util.UUID;
 import java.time.LocalDate;
 
 @Document(collection = "users") // MongoDB collection name
 public class User {
 
     @Id
-    private UUID uuid; // Unique identifier for the user
+    private String id; // Unique identifier for the user (String)
 
     @Field("firstName")
     private String firstName;
@@ -24,13 +23,13 @@ public class User {
     @Field("email")
     private String email;
 
-    // Getter and Setter for 'uuid'
-    public UUID getUuid() {
-        return uuid;
+    // Getter and Setter for 'id'
+    public String getId() {
+        return id;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     // Getter and Setter for 'firstName'
@@ -72,7 +71,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "uuid=" + uuid +
+                "id='" + id + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", birthday=" + birthday +

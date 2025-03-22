@@ -4,16 +4,18 @@ import ro.unibuc.hello.data.User;
 import ro.unibuc.hello.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ro.unibuc.hello.exception.EntityNotFoundException;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserService (UserRepository userRepository){
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -22,18 +24,44 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    // Find user by their UUID (ID)
-    public Optional<User> findUserById(UUID id) {
+    // Find user by their String ID
+    public Optional<User> findUserById(String id) {
         return userRepository.findById(id);
     }
 
-    // Save a user (can be used for both create and update operations)
-    public User saveUser(User user) {
+    // Get all users
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    // Create a new user
+    public User createUser(User user) {
         return userRepository.save(user);
     }
 
-    // Delete user by ID
-    public void deleteUserById(UUID id) {
+    // Update an existing user
+    public User updateUser(String id, User user) throws EntityNotFoundException {
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("User not found");
+        }
+        user.setId(id);  // Ensure the ID is set for the update
+        return userRepository.save(user);
+    }
+
+    // Patch a user (partial update)
+    public User patchUser(String id, User user) throws EntityNotFoundException {
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("User not found");
+        }
+        user.setId(id);  // Ensure the ID is set for the patch
+        return userRepository.save(user);
+    }
+
+    // Delete a user by ID
+    public void deleteUser(String id) throws EntityNotFoundException {
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException("User not found");
+        }
         userRepository.deleteById(id);
     }
 }
