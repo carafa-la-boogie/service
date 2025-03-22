@@ -6,67 +6,6 @@
 
 # Requests for API endpoints of the sample project:
 
-### Hello world endpoint: get response "Hello, Stranger!"
-GET http://localhost:8080/users
-
-
-
-POST http://localhost:8080/users
-Content-Type: application/json
-{
-    "firstName": "John",
-    "lastName": "Doe",
-    "birthday": "1990-01-01",
-    "email": "john.doe@example.com"
-}
-
-### Hello world with a request param passed.
-# When sending the request it will ask you for the name
-# hitting enter will avoid passing the param, and do the default behaviour above
-# @prompt name The name to display in response
-GET http://localhost:8080/hello-world
-    ?name={{name}}
-
-### Save a greeting to database
-@postGreetingId = 1001
-@postGreetingContent = Hello!
-POST http://localhost:8080/users
-Content-Type: application/json
-
-
-{
-    "id": "3",
-    "firstName": "John",
-    "lastName": "Doe",
-    "birthday": "1990-01-01",
-    "email": "john.doe@example.com"
-}
-
-
-### Get all greetings
-GET http://localhost:8080/greetings
-
-### Get info for greeting with given content
-# @prompt content Greeting content to look for, defaults to "Overview"
-GET http://localhost:8080/info
-    ?title={{content}}
-
-### Update an existing greeting
-@putGreetingId = 1001
-@putGreetingContent = Hello again!
-PUT http://localhost:8080/greetings/{{putGreetingId}}
-Content-Type: application/json
-
-{
-    "content": "{{putGreetingContent}}"
-}
-
-### Delete greeting
-@deleteGreetingId = 1001
-DELETE http://localhost:8080/greetings/{{deleteGreetingId}}
-
-
-# TODO add requests for your own endpoints!
 ### Get all users
 GET http://localhost:8080/users
 
@@ -127,10 +66,10 @@ POST http://localhost:8080/friendships
 Content-Type: application/json
 
 {
-    "id": "2",
-    "firstFriendId": "1",
-    "secondFriendId": "2",
-    "friendshipStartDate": "2025-03-22"
+    "id": "3",
+    "firstFriend": "1",
+    "secondFriend": "3",
+    "friendshipAniversary": "2025-03-22"
 }
 
 ### Update an existing friendship (between John Doe with id 1 and John Doe with id 2)
@@ -138,10 +77,9 @@ PUT http://localhost:8080/friendships/
 Content-Type: application/json
 
 {
-    "firstFriendId": "1",
-    "secondFriendId": "2",
-    "friendshipStartDate": "2025-03-22",
-    "friendshipStatus": "Updated"
+    "firstFriend": "1",
+    "secondFriend": "2",
+    "friendshipAniversary": "2025-03-23"
 }
 
 ### Patch an existing friendship (partially update) between John Doe with id 1 and John Doe with id 2
@@ -162,4 +100,46 @@ GET http://localhost:8080/friendships/first-friend/1
 GET http://localhost:8080/friendships/second-friend/2
 
 ### Delete a friendship by ID (John Doe with id 1 and John Doe with id 2)
-DELETE http://localhost:8080/friendships/1
+DELETE http://localhost:8080/friendships/2
+
+### Gift Ideas Endpoints ###
+
+### Get a gift idea by its ID
+GET http://localhost:8080/gift-ideas/1
+
+### Get all gift ideas
+GET http://localhost:8080/gift-ideas
+
+### Create a new gift idea
+POST http://localhost:8080/gift-ideas
+Content-Type: application/json
+
+{
+    "id": "1",
+    "giftName": "Bluetooth Speaker",
+    "giftLink": "https://example.com/bluetooth-speaker",
+    "giftGiver": "1",
+    "giftReceiver": "2"  
+}
+
+### Update an existing gift idea
+PUT http://localhost:8080/gift-ideas/1
+Content-Type: application/json
+
+{
+    "giftName": "Smartwatch",
+    "giftLink": "https://example.com/smartwatch",
+    "giftGiver": "1",
+    "giftReceiver": "2"
+}
+
+### Patch an existing gift idea
+PATCH http://localhost:8080/gift-ideas/1
+Content-Type: application/json
+
+{
+    "giftName": "Wireless Earbuds"
+}
+
+### Delete a gift idea by its ID
+DELETE http://localhost:8080/gift-ideas/1
