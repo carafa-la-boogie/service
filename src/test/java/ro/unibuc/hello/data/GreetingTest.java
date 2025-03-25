@@ -1,7 +1,9 @@
-package ro.unibuc.hello.dto;
+package ro.unibuc.hello.data;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import ro.unibuc.hello.dto.Greeting;
 
 class GreetingTest {
 
