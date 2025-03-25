@@ -20,6 +20,18 @@ public class Friendship {
     @Field("friendshipAniversary")
     private LocalDate friendshipAniversary; // Date of the friendship anniversary
 
+    public Friendship() {
+        // Default constructor
+    }
+    
+    public Friendship(String id, String firstFriend, String secondFriend, LocalDate friendshipAniversary) {
+        this.id = id;
+        this.firstFriend = firstFriend;
+        this.secondFriend = secondFriend;
+        this.friendshipAniversary = friendshipAniversary;
+    }
+    
+
     // Getter and Setter for 'id'
     public String getId() {
         return id;
