@@ -10,18 +10,18 @@
 GET http://localhost:8080/users
 
 ### Get a user by their email
-GET http://localhost:8080/users/john.doe@example.com
+GET http://localhost:8080/users/alex.ratiu@example.com
 
 ### Create a new user
 POST http://localhost:8080/users
 Content-Type: application/json
 
 {
-    "id": "1",
-    "firstName": "John",
-    "lastName": "Doe",
+    "id": "5",
+    "firstName": "Alex",
+    "lastName": "Ratiu",
     "birthday": "1990-01-01",
-    "email": "john.doe@example.com"
+    "email": "alex.ratiu@example.com"
 }
 
 ### Update an existing user
@@ -29,11 +29,11 @@ PUT http://localhost:8080/users/1
 Content-Type: application/json
 
 {
-    "id": "1",
-    "firstName": "John",
-    "lastName": "Doe",
-    "birthday": "1990-01-01",
-    "email": "john.doe.updated@example.com"
+    "id": "5",
+    "firstName": "Alex",
+    "lastName": "Ratiu",
+    "birthday": "2008-01-01",
+    "email": "alex.ratiu@example.com"
 }
 
 ### Patch an existing user
@@ -48,7 +48,7 @@ Content-Type: application/json
 }
 
 ### Delete a user by ID
-DELETE http://localhost:8080/users/
+DELETE http://localhost:8080/users/1
 
 ### Friendship Endpoints ###
 
@@ -67,8 +67,8 @@ Content-Type: application/json
 
 {
     "id": "3",
-    "firstFriend": "1",
-    "secondFriend": "3",
+    "firstFriend": "3",
+    "secondFriend": "5",
     "friendshipAniversary": "2025-03-22"
 }
 
@@ -83,11 +83,13 @@ Content-Type: application/json
 }
 
 ### Patch an existing friendship (partially update) between John Doe with id 1 and John Doe with id 2
-PATCH http://localhost:8080/friendships/1
+PATCH http://localhost:8080/friendships/3
 Content-Type: application/json
 
 {
-    "friendshipStatus": "Updated"
+    "firstFriend": "5",
+    "secondFriend": "3",
+    "friendshipAniversary": "2024-03-23"
 }
 
 ### Delete a friendship by ID (between John Doe with id 1 and John Doe with id 2)
