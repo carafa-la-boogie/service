@@ -25,7 +25,7 @@ public class UserController {
 
     // Get a user by their email
     @GetMapping("/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) throws EntityNotFoundException {
+    public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) throws EntityNotFoundException {
         User user = userService.findUserByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -47,21 +47,21 @@ public class UserController {
 
     // Update an existing user
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) throws EntityNotFoundException {
+    public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody User user) throws EntityNotFoundException {
         User updatedUser = userService.updateUser(id, user);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     // Patch an existing user
     @PatchMapping("/{id}")
-    public ResponseEntity<User> patchUser(@PathVariable String id, @RequestBody User user) throws EntityNotFoundException {
+    public ResponseEntity<User> patchUser(@PathVariable("id") String id, @RequestBody User user) throws EntityNotFoundException {
         User patchedUser = userService.patchUser(id, user);
         return new ResponseEntity<>(patchedUser, HttpStatus.OK);
     }
 
     // Delete a user by ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable String id) throws EntityNotFoundException {
+    public ResponseEntity<String> deleteUser(@PathVariable("id") String id) throws EntityNotFoundException {
         userService.deleteUser(id);
         return new ResponseEntity<>("User deleted successfully", HttpStatus.NO_CONTENT);
     }
