@@ -23,6 +23,17 @@ public class User {
     @Field("email")
     private String email;
 
+    public User() {
+    }
+
+    public User(String id, String firstName, String lastName, LocalDate birthday, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthday = birthday;
+        this.email = email;
+    }
+
     // Getter and Setter for 'id'
     public String getId() {
         return id;

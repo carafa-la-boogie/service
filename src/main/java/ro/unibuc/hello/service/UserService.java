@@ -64,4 +64,9 @@ public class UserService {
         }
         userRepository.deleteById(id);
     }
+
+    // Delete all users (useful for your cleanup in tests)
+    public void deleteAllUsers() {
+        userRepository.deleteAll();
+    }
 }
