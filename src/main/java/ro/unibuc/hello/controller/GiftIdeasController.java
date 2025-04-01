@@ -25,9 +25,14 @@ public class GiftIdeasController {
 
     // Get a gift idea by its ID
     @GetMapping("/{id}")
-    public ResponseEntity<GiftIdeas> getGiftIdeaById(@PathVariable String id) throws EntityNotFoundException {
-        GiftIdeas giftIdea = giftIdeaService.findById(id);
-        return new ResponseEntity<>(giftIdea, HttpStatus.OK);
+    public ResponseEntity<GiftIdeas> getGiftIdeaById(@PathVariable("id") String id) {
+        try {
+            GiftIdeas giftIdea = giftIdeaService.findById(id);
+            return new ResponseEntity<>(giftIdea, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            // Handle the exception here and return a 404
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     // Get all gift ideas
@@ -46,21 +51,21 @@ public class GiftIdeasController {
 
     // Update an existing gift idea
     @PutMapping("/{id}")
-    public ResponseEntity<GiftIdeas> updateGiftIdea(@PathVariable String id, @RequestBody GiftIdeas giftIdea) throws EntityNotFoundException {
+    public ResponseEntity<GiftIdeas> updateGiftIdea(@PathVariable("id") String id, @RequestBody GiftIdeas giftIdea) throws EntityNotFoundException {
         GiftIdeas updatedGiftIdea = giftIdeaService.updateGiftIdea(id, giftIdea);
         return new ResponseEntity<>(updatedGiftIdea, HttpStatus.OK);
     }
 
     // Patch an existing gift idea
     @PatchMapping("/{id}")
-    public ResponseEntity<GiftIdeas> patchGiftIdea(@PathVariable String id, @RequestBody GiftIdeas giftIdea) throws EntityNotFoundException {
+    public ResponseEntity<GiftIdeas> patchGiftIdea(@PathVariable("id") String id, @RequestBody GiftIdeas giftIdea) throws EntityNotFoundException {
         GiftIdeas patchedGiftIdea = giftIdeaService.patchGiftIdea(id, giftIdea);
         return new ResponseEntity<>(patchedGiftIdea, HttpStatus.OK);
     }
 
     // Delete a gift idea by its ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteGiftIdea(@PathVariable String id) throws EntityNotFoundException {
+    public ResponseEntity<String> deleteGiftIdea(@PathVariable("id") String id) throws EntityNotFoundException {
         giftIdeaService.deleteGiftIdea(id);
         return new ResponseEntity<>("Gift idea deleted successfully", HttpStatus.NO_CONTENT);
     }

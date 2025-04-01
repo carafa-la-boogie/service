@@ -80,4 +80,9 @@ public class GiftIdeasService {
         }
         giftIdeasRepository.deleteById(id);
     }
+
+    // Delete all gift ideas
+    public void deleteAll() {
+        giftIdeasRepository.deleteAll();
+    }
 }

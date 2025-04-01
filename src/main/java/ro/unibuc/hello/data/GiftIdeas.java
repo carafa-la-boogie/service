@@ -22,6 +22,9 @@ public class GiftIdeas {
     @Field("giftReceiver")
     private String giftReceiver; // UUID of the person receiving the gift
 
+    public GiftIdeas() {
+    }
+
     public GiftIdeas(String id, String giftName, String giftLink, String giftGiver, String giftReceiver) {
         this.id = id;
         this.giftGiver = giftGiver;
