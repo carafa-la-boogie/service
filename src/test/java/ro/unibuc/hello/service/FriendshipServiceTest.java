@@ -9,6 +9,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import io.micrometer.core.instrument.Counter;
+
+
 import ro.unibuc.hello.data.Friendship;
 import ro.unibuc.hello.data.FriendshipRepository;
 import ro.unibuc.hello.exception.EntityNotFoundException;
@@ -23,6 +26,9 @@ class FriendshipServiceTest {
 
     @Mock
     private FriendshipRepository friendshipRepository;
+
+    @Mock
+    private Counter customCounter;
 
     @InjectMocks
     private FriendshipService friendshipService;

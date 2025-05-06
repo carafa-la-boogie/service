@@ -3,6 +3,7 @@ package ro.unibuc.hello.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import io.micrometer.core.instrument.Counter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +15,6 @@ import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +23,9 @@ class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private Counter customCounter;
 
     @InjectMocks
     private UserService userService;
@@ -36,6 +39,7 @@ class UserServiceTest {
         user.setFirstName("John");
         user.setLastName("Doe");
         user.setEmail("john.doe@example.com");
+        user.setBirthday(LocalDate.of(1990, 1, 1));
     }
 
     @Test
@@ -55,26 +59,17 @@ class UserServiceTest {
     }
 
     @Test
-void testFindAllUsers() {
-    User user1 = new User();
-    user1.setId("1");
-    user1.setFirstName("John");
-    user1.setLastName("Doe");
-    user1.setEmail("john.doe@example.com");
-    user1.setBirthday(LocalDate.of(1990, 5, 15)); // optional
+    void testFindAllUsers() {
+        User user2 = new User();
+        user2.setId("2");
+        user2.setFirstName("Jane");
+        user2.setLastName("Smith");
+        user2.setEmail("jane.smith@example.com");
 
-    User user2 = new User();
-    user2.setId("2");
-    user2.setFirstName("Jane");
-    user2.setLastName("Smith");
-    user2.setEmail("jane.smith@example.com");
-    user2.setBirthday(LocalDate.of(1992, 8, 20)); // optional
-
-    List<User> users = List.of(user1, user2); // using List.of() instead of Arrays.asList()
-    when(userRepository.findAll()).thenReturn(users);
-    List<User> result = userService.findAll();
-    assertEquals(2, result.size());
-}
+        when(userRepository.findAll()).thenReturn(List.of(user, user2));
+        List<User> users = userService.findAll();
+        assertEquals(2, users.size());
+    }
 
     @Test
     void testCreateUser() {

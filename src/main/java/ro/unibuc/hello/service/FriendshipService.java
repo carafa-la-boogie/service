@@ -1,5 +1,6 @@
 package ro.unibuc.hello.service;
 
+import io.micrometer.core.instrument.Counter;
 import ro.unibuc.hello.data.Friendship;
 import ro.unibuc.hello.data.FriendshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,12 @@ import java.util.Optional;
 public class FriendshipService {
 
     private final FriendshipRepository friendshipRepository;
+    private final Counter customFrienshipCounter;
 
     @Autowired
-    public FriendshipService(FriendshipRepository friendshipRepository) {
+    public FriendshipService(FriendshipRepository friendshipRepository, Counter customFrienshipCounter) {
         this.friendshipRepository = friendshipRepository;
+        this.customFrienshipCounter = customFrienshipCounter;
     }
 
     // Find friendship by first friend UUID
@@ -31,6 +34,8 @@ public class FriendshipService {
 
     // Save a friendship (can be used for both create and update operations)
     public Friendship saveFriendship(Friendship friendship) {
+        // Increment the custom counter whenever a friendship is saved
+        customFrienshipCounter.increment();  // Increment the counter
         return friendshipRepository.save(friendship);
     }
 
@@ -52,6 +57,8 @@ public class FriendshipService {
 
     // Create a new Friendship
     public Friendship createFriendship(Friendship friendship) {
+        // Increment the custom counter whenever a new friendship is created
+        customFrienshipCounter.increment();  // Increment the counter
         return friendshipRepository.save(friendship);
     }
 
