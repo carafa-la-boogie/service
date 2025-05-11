@@ -4,12 +4,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import ro.unibuc.hello.data.User;
 import ro.unibuc.hello.data.UserRepository;
 import ro.unibuc.hello.exception.EntityNotFoundException;
@@ -18,6 +21,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
@@ -26,6 +30,9 @@ class UserServiceTest {
 
     @Mock
     private Counter customCounter;
+
+    @Mock
+    private MeterRegistry meterRegistry;
 
     @InjectMocks
     private UserService userService;
@@ -40,6 +47,10 @@ class UserServiceTest {
         user.setLastName("Doe");
         user.setEmail("john.doe@example.com");
         user.setBirthday(LocalDate.of(1990, 1, 1));
+
+        when(meterRegistry.counter("custom_counter", "type", "user_created")).thenReturn(customCounter);
+        when(meterRegistry.counter("custom_counter", "type", "user_updated")).thenReturn(customCounter);
+        when(meterRegistry.counter("custom_counter", "type", "user_deleted")).thenReturn(customCounter);
     }
 
     @Test
@@ -74,15 +85,20 @@ class UserServiceTest {
     @Test
     void testCreateUser() {
         when(userRepository.save(user)).thenReturn(user);
+        when(meterRegistry.counter("custom_counter", "type", "user_created")).thenReturn(customCounter);
+
         User createdUser = userService.createUser(user);
+
         assertNotNull(createdUser);
         assertEquals(user.getId(), createdUser.getId());
+        verify(customCounter, times(1)).increment();
     }
 
     @Test
     void testUpdateUser_Success() throws EntityNotFoundException {
         when(userRepository.existsById(user.getId())).thenReturn(true);
         when(userRepository.save(user)).thenReturn(user);
+
         User updatedUser = userService.updateUser(user.getId(), user);
         assertEquals(user.getId(), updatedUser.getId());
     }
@@ -110,9 +126,11 @@ class UserServiceTest {
     @Test
     void testDeleteUser_Success() throws EntityNotFoundException {
         when(userRepository.existsById(user.getId())).thenReturn(true);
+
         doNothing().when(userRepository).deleteById(user.getId());
         assertDoesNotThrow(() -> userService.deleteUser(user.getId()));
-    }
+
+    }   
 
     @Test
     void testDeleteUser_NotFound() {

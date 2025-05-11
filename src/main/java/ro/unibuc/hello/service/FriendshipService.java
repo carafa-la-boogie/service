@@ -1,6 +1,7 @@
 package ro.unibuc.hello.service;
 
 import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import ro.unibuc.hello.data.Friendship;
 import ro.unibuc.hello.data.FriendshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,13 @@ import java.util.Optional;
 public class FriendshipService {
 
     private final FriendshipRepository friendshipRepository;
-    private final Counter customFrienshipCounter;
+    private final MeterRegistry meterRegistry;
+
 
     @Autowired
-    public FriendshipService(FriendshipRepository friendshipRepository, Counter customFrienshipCounter) {
+    public FriendshipService(FriendshipRepository friendshipRepository, MeterRegistry meterRegistry) {
         this.friendshipRepository = friendshipRepository;
-        this.customFrienshipCounter = customFrienshipCounter;
+        this.meterRegistry = meterRegistry;
     }
 
     // Find friendship by first friend UUID
@@ -34,13 +36,15 @@ public class FriendshipService {
 
     // Save a friendship (can be used for both create and update operations)
     public Friendship saveFriendship(Friendship friendship) {
-        // Increment the custom counter whenever a friendship is saved
-        customFrienshipCounter.increment();  // Increment the counter
+        Counter counter = meterRegistry.counter("custom_counter", "type", "friendship_saved");
+        counter.increment();
         return friendshipRepository.save(friendship);
     }
 
     // Delete friendship by ID
     public void deleteFriendshipById(String id) {
+        Counter counter = meterRegistry.counter("custom_counter", "type", "friendship_deleted");
+        counter.increment();
         friendshipRepository.deleteById(id);
     }
 
@@ -57,8 +61,8 @@ public class FriendshipService {
 
     // Create a new Friendship
     public Friendship createFriendship(Friendship friendship) {
-        // Increment the custom counter whenever a new friendship is created
-        customFrienshipCounter.increment();  // Increment the counter
+        Counter counter = meterRegistry.counter("custom_counter", "type", "friendship_created");
+        counter.increment();
         return friendshipRepository.save(friendship);
     }
 
@@ -82,6 +86,8 @@ public class FriendshipService {
 
     // Delete a friendship by ID
     public void deleteFriendship(String id) throws EntityNotFoundException {
+        Counter counter = meterRegistry.counter("custom_counter", "type", "friendship_deleted");
+        counter.increment();
         if (!friendshipRepository.existsById(id)) {
             throw new EntityNotFoundException("Friendship not found");
         }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,12 +15,12 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final Counter userCreatedCounter;
+    private final MeterRegistry meterRegistry;
 
     @Autowired
-    public UserService(UserRepository userRepository, Counter userCreatedCounter) {
+    public UserService(UserRepository userRepository, MeterRegistry meterRegistry) {
         this.userRepository = userRepository;
-        this.userCreatedCounter = userCreatedCounter;
+        this.meterRegistry = meterRegistry;
     }
 
     public Optional<User> findUserByEmail(String email) {
@@ -35,11 +36,14 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        userCreatedCounter.increment();
+        Counter counter = meterRegistry.counter("custom_counter", "type", "user_created");
+        counter.increment();
         return userRepository.save(user);
     }
 
     public User updateUser(String id, User user) throws EntityNotFoundException {
+        Counter counter = meterRegistry.counter("custom_counter", "type", "user_updated");
+        counter.increment();
         if (!userRepository.existsById(id)) {
             throw new EntityNotFoundException("User not found");
         }
@@ -56,6 +60,8 @@ public class UserService {
     }
 
     public void deleteUser(String id) throws EntityNotFoundException {
+        Counter counter = meterRegistry.counter("custom_counter", "type", "user_deleted");
+        counter.increment();
         if (!userRepository.existsById(id)) {
             throw new EntityNotFoundException("User not found");
         }

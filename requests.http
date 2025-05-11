@@ -17,11 +17,11 @@ POST http://localhost:8080/users
 Content-Type: application/json
 
 {
-    "id": "5",
+    "id": "6",
     "firstName": "Alex",
     "lastName": "Ratiu",
     "birthday": "1990-01-01",
-    "email": "alex.ratiu@example.com"
+    "email": "alex.ratiu2@example.com"
 }
 
 ### Update an existing user
@@ -48,7 +48,7 @@ Content-Type: application/json
 }
 
 ### Delete a user by ID
-DELETE http://localhost:8080/users/1
+DELETE http://localhost:8080/users/6
 
 ### Friendship Endpoints ###
 
@@ -66,9 +66,9 @@ POST http://localhost:8080/friendships
 Content-Type: application/json
 
 {
-    "id": "3",
-    "firstFriend": "3",
-    "secondFriend": "5",
+    "id": "4",
+    "firstFriend": "5",
+    "secondFriend": "6",
     "friendshipAniversary": "2025-03-22"
 }
 

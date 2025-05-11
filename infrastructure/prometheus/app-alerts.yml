@@ -18,3 +18,12 @@ groups:
         annotations:
           summary: Increased info retrieval rate {{ $labels.value}} {{ $value }}
           description: "A container has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+      - alert: WARNING-Friendship
+        expr: custom_counter_total > 1
+        for: 10s
+        labels:
+          severity: warning
+        annotations:
+          summary: Increased info retrieval rate {{ $labels.value}} {{ $value }}
+          description: "A container has disappeared\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"

@@ -37,19 +37,19 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     profiles:
       - "mongo"
-  mongo-admin-ui:
-    image: mongo-express
-    restart: always
-    ports:
-      - 8090:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-      ME_CONFIG_BASICAUTH_USERNAME: unibuc
-      ME_CONFIG_BASICAUTH_PASSWORD: adobe
-    profiles:
-      - "mongo"
+  # mongo-admin-ui:
+  #   image: mongo-express
+  #   restart: always
+  #   ports:
+  #     - 8090:8081
+  #   environment:
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: root
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: example
+  #     ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+  #     ME_CONFIG_BASICAUTH_USERNAME: unibuc
+  #     ME_CONFIG_BASICAUTH_PASSWORD: adobe
+  #   profiles:
+  #     - "mongo"
 # MONITORING SERVICES
   cadvisor: # container metric prometheus exporter
     image: gcr.io/cadvisor/cadvisor:v0.51.0

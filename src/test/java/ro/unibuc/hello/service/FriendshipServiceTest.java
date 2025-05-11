@@ -9,7 +9,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 
 
 import ro.unibuc.hello.data.Friendship;
@@ -21,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.time.LocalDate;
 
+@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 class FriendshipServiceTest {
 
@@ -29,6 +33,9 @@ class FriendshipServiceTest {
 
     @Mock
     private Counter customCounter;
+
+    @Mock
+    private MeterRegistry meterRegistry;
 
     @InjectMocks
     private FriendshipService friendshipService;
@@ -41,6 +48,9 @@ class FriendshipServiceTest {
         friendship.setId("1");
         friendship.setFirstFriend("FriendA");
         friendship.setSecondFriend("FriendB");
+
+        when(meterRegistry.counter("custom_counter", "type", "friendship_created")).thenReturn(customCounter);
+        when(meterRegistry.counter("custom_counter", "type", "friendship_deleted")).thenReturn(customCounter);
     }
 
     @Test
@@ -70,15 +80,19 @@ class FriendshipServiceTest {
     @Test
     void testCreateFriendship() {
         when(friendshipRepository.save(friendship)).thenReturn(friendship);
+        when(meterRegistry.counter("custom_counter", "type", "friendship_created")).thenReturn(customCounter);
+
         Friendship createdFriendship = friendshipService.createFriendship(friendship);
         assertNotNull(createdFriendship);
         assertEquals(friendship.getId(), createdFriendship.getId());
+        verify(customCounter, times(1)).increment();
     }
 
     @Test
     void testUpdateFriendship_Success() throws EntityNotFoundException {
         when(friendshipRepository.existsById(friendship.getId())).thenReturn(true);
         when(friendshipRepository.save(friendship)).thenReturn(friendship);
+
         Friendship updatedFriendship = friendshipService.updateFriendship(friendship.getId(), friendship);
         assertEquals(friendship.getId(), updatedFriendship.getId());
     }
@@ -106,8 +120,10 @@ class FriendshipServiceTest {
     @Test
     void testDeleteFriendship_Success() throws EntityNotFoundException {
         when(friendshipRepository.existsById(friendship.getId())).thenReturn(true);
+
         doNothing().when(friendshipRepository).deleteById(friendship.getId());
         assertDoesNotThrow(() -> friendshipService.deleteFriendship(friendship.getId()));
+
     }
 
     @Test
